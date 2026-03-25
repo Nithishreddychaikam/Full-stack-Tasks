@@ -2,6 +2,11 @@
 session_start();
 include 'connect.php';
 
+if (!isset($_SESSION['user_id'])) {
+    header("Location: login.php");
+    exit();
+}
+
 $user_id = $_SESSION['user_id'];
 
 $name = $_POST['name'];
@@ -10,9 +15,10 @@ $category = $_POST['category'];
 $date = $_POST['date'];
 
 $sql = "INSERT INTO expenses (name, amount, category, date, user_id)
-VALUES ('$name', '$amount', '$category', '$date', '$user_id')";
+        VALUES ('$name', '$amount', '$category', '$date', '$user_id')";
 
 mysqli_query($conn, $sql);
 
 header("Location: index.php");
+exit();
 ?>

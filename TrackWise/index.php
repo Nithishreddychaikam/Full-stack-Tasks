@@ -14,13 +14,13 @@ $user_id = $_SESSION['user_id'];
 $totalQuery = "SELECT SUM(amount) as total FROM expenses WHERE user_id='$user_id'";
 $totalResult = mysqli_query($conn, $totalQuery);
 $totalRow = mysqli_fetch_assoc($totalResult);
-$total = $totalRow['total'] ? $totalRow['total'] : 0;
+$total = isset($totalRow['total']) ? $totalRow['total'] : 0;
 
 // Total Entries
 $countQuery = "SELECT COUNT(*) as count FROM expenses WHERE user_id='$user_id'";
 $countResult = mysqli_query($conn, $countQuery);
 $countRow = mysqli_fetch_assoc($countResult);
-$count = $countRow['count'] ? $countRow['count'] : 0;
+$count = isset($countRow['count']) ? $countRow['count'] : 0;
 ?>
 
 <!DOCTYPE html>

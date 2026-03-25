@@ -2,8 +2,8 @@
 $host = "127.0.0.1";
 $user = "root";
 $password = "";
-$database = "trackwise";
-$port = 3307;
+$database = "trackwise";   // make sure this DB exists
+$port = 3307;              // IMPORTANT: your actual port
 
 $conn = mysqli_connect($host, $user, $password, $database, $port);
 
