@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/base :: head('View Applicants')}"></head>
+<body>
+    <div th:replace="~{fragments/base :: navbar}"></div>
+
+    <div class="container mt-4">
+        <div class="mb-4">
+            <a href="/recruiter/dashboard" class="text-decoration-none">&larr; Back to Dashboard</a>
+        </div>
+        
+        <h3 class="mb-2">Applicants for: <span class="text-primary" th:text="${job.title}">Job Title</span></h3>
+        <p class="text-muted mb-4">Manage the pipeline for this position.</p>
+
+        <div th:if="${param.updated}" class="alert alert-success">
+            Application status updated successfully.
+        </div>
+
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <div th:if="${#lists.isEmpty(applications)}" class="text-center p-5">
+                    <h5 class="text-muted">No applications received yet.</h5>
+                </div>
+
+                <div class="table-responsive" th:unless="${#lists.isEmpty(applications)}">
+                    <table class="table table-hover align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Candidate Name</th>
+                                <th>Email</th>
+                                <th>Applied Date</th>
+                                <th>Current Status</th>
+                                <th>Take Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="app : ${applications}">
+                                <td class="fw-bold" th:text="${app.candidate.name}">Name</td>
+                                <td><a th:href="'mailto:' + ${app.candidate.email}" th:text="${app.candidate.email}">email</a></td>
+                                <td th:text="${#calendars.format(app.appliedAt, 'dd MMM yyyy')}">Date</td>
+                                <td>
+                                    <span class="badge"
+                                          th:classappend="${app.status == 'APPLIED' ? 'bg-secondary' : (app.status == 'SHORTLISTED' ? 'bg-success' : 'bg-danger')}"
+                                          th:text="${app.status}">APPLIED</span>
+                                </td>
+                                <td>
+                                    <form th:action="@{'/recruiter/application/' + ${app.id} + '/status'}" method="post" class="d-inline-flex gap-2">
+                                        <input type="hidden" name="jobId" th:value="${job.id}" />
+                                        <select name="status" class="form-select form-select-sm" style="width: auto;">
+                                            <option value="APPLIED" th:selected="${app.status == 'APPLIED'}">APPLIED</option>
+                                            <option value="SHORTLISTED" th:selected="${app.status == 'SHORTLISTED'}">SHORTLISTED</option>
+                                            <option value="REJECTED" th:selected="${app.status == 'REJECTED'}">REJECTED</option>
+                                        </select>
+                                        <button type="submit" class="btn btn-sm btn-outline-primary">Update</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

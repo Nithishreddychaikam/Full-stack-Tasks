@@ -1,0 +1,30 @@
+body{
+font-family: Arial;
+margin:40px;
+}
+
+table{
+border-collapse: collapse;
+width:60%;
+margin-top:20px;
+}
+
+th, td{
+padding:10px;
+text-align:center;
+}
+
+th{
+background-color:#4CAF50;
+color:white;
+}
+
+button{
+padding:8px;
+margin:5px;
+cursor:pointer;
+}
+
+select{
+padding:6px;
+}
